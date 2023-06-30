@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
   id "com.github.johnrengelman.shadow" version "8.1.1"
   id 'io.vertx.vertx-plugin' version '1.4.0'
@@ -6,31 +8,25 @@ plugins {
 }
 
 dependencies {
-  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-  implementation "ch.qos.logback:logback-classic"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:+"
+  implementation "ch.qos.logback:logback-classic:+"
 
-  implementation "io.vertx:vertx-web"
-  implementation "io.vertx:vertx-lang-kotlin"
+  implementation "io.vertx:vertx-web:+"
+  implementation "io.vertx:vertx-lang-kotlin:+"
 
-  implementation "io.vertx:vertx-rx-java3"
-  implementation "io.reactivex.rxjava3:rxkotlin"
+  implementation "io.vertx:vertx-rx-java3:+"
+  implementation "io.reactivex.rxjava3:rxkotlin:+"
 
-  implementation "io.vertx:vertx-mongo-client"
+  implementation "io.vertx:vertx-mongo-client:+"
 
-  testImplementation "io.vertx:vertx-junit5"
-  testImplementation("io.vertx:vertx-junit5-rx-java3:4.4.3")
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.1.0"
-  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.1.0"
+  testImplementation "io.vertx:vertx-junit5:+"
+  testImplementation "io.vertx:vertx-junit5-rx-java3:+"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:+"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:+"
 }
 
 test {
   useJUnitPlatform()
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-  kotlinOptions {
-    jvmTarget = "1.8"
-  }
 }
 
 repositories {
@@ -40,13 +36,8 @@ repositories {
   mavenCentral()
 }
 
-ext {
-  vertxVersion = '3.5.1'
-}
-
-
 vertx {
-  mainVerticle = "zlack/backend/src/main/kotlin/io/github/jponge/zlack/MessageStoreVerticle.kt"
+  mainVerticle = "src/kotlin/MessageStoreVerticle.kt"
 }
 
 tasks.register('deployToKube', Exec) {
@@ -55,6 +46,11 @@ tasks.register('deployToKube', Exec) {
   commandLine = './deploy-to-kube.sh'
 }
 
-wrapper {
+tasks.named('wrapper') {
+  distributionType = Wrapper.DistributionType.ALL
   gradleVersion = '8.1.1'
+}
+
+tasks.withType(KotlinCompile).configureEach {
+  kotlinOptions.jvmTarget = JavaVersion.VERSION_11
 }

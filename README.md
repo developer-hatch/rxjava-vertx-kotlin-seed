@@ -10,7 +10,7 @@ This repository contains several reactive services to be deployed in Kubernetes.
    _(Vert.x web / web client / service discovery, RxJava2)_
 3. [zlack](zlack) is a chat application, exposing an API and a reactive VueJS interface.
    It provides real-time message deliveries and shows how the Vert.x event bus can be extended to client-side applications and offer a unified message-passing programming model.
-   _(Vert.x web / web client / SockJS event bus bridge / RxJava 2 / MongoDB / VueJS)_ 
+   _(Vert.x web / web client / SockJS event bus bridge / RxJava 2 / MongoDB / VueJS)_
 4. [temperature-to-zlack-service](temperature-to-zlack-service) is a service that gathers all temperatures from the gateway, and notifies in the Zlack chat of all sensors having a temperature above a threshold.
    It uses Kotlin coroutines to show how a more traditional _"synchronous-style"_ programming model can be used to coordinate operations.
    _(Vert.x web client / Kotlin coroutines / minimal liveness reporting)_
@@ -46,16 +46,16 @@ _If you are not deploying to `minikube`:_
 
 ## Legal stuff
 
-This was originally written by [Julien Ponge](https://julien.ponge.org/) and is distributed under the terms of the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt) 
+This was originally written by [Julien Ponge](https://julien.ponge.org/) and is distributed under the terms of the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.txt)
 
     Copyright 2018 Julien Ponge
-    
+
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
-    
+
        http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,3 +65,17 @@ This was originally written by [Julien Ponge](https://julien.ponge.org/) and is 
 ## Contributing
 
 Contributions are welcome, please use GitHub pull requests!
+
+
+Mongo:
+
+    docker-compose -f docker-compose-for-testing.yml up
+
+Backend API:
+
+    http GET localhost:8080/api/messages
+    http POST localhost:8080/api/messages author='Julien' content='Yo!'
+
+Docker:
+
+    docker build -t zlack:latest .
