@@ -4,19 +4,25 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: zlack-app
     depends_on:
       - mongodb
+    networks:
+      - zlack-network
     ports:
-      - '8008:8080'
+      - '8080:8080'
 
   mongodb:
     image: mongo
-    container_name: my_mongodb
-    ports:
-      - '27017:27017'
     volumes:
       - zlackdb:/data/db
+    networks:
+      - zlack-network
+    ports:
+      - '27017:27017'
 
 volumes:
   zlackdb:
+
+networks:
+  zlack-network:
+    driver: bridge

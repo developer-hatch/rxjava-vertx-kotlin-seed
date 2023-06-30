@@ -18,7 +18,7 @@ While developing a Vert.x service you can have live-reload, as in:
 
 Docker:
 
-    docker-compose -f docker-compose-for-testing.yml up && docker-compose -f docker-compose-for-testing.yml down --remove-orphans
+    docker-compose -f docker-compose-for-testing.yml up --build && docker-compose -f docker-compose-for-testing.yml down --remove-orphans
 
 Backend API:
 
