@@ -23,7 +23,11 @@ Docker:
 Backend API:
 
     http GET localhost:8080/api/messages
-    http POST localhost:8080/api/messages author='Damian Lattenero' content='SUP?!'
+    http POST localhost:8080/api/messages
+         With body:   {
+                        "author": "Damian",
+                        "content": "SUP!"
+                       }
 
 ## Contributing
 

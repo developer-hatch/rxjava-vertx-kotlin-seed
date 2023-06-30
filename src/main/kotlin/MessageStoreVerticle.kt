@@ -17,12 +17,15 @@ class MessageStoreVerticle : AbstractVerticle() {
   private lateinit var client: MongoClient
 
   override fun start() {
-    logger.info("Starting the message store with MongoDB host=mongodb, port=27017")
+    val host = config().getString("mongo-host")
+    val port = config().getString("mongo-port").toInt()
+
+    logger.info("Starting the message store with MongoDB host=$host, port=$port")
 
     client = MongoClient.createShared(vertx, json {
       obj(
-        "host" to "mongodb",
-        "port" to 27017,
+        "host" to host,
+        "port" to port,
         "db_name" to "zlack",
         "useObjectId" to true,
         "trustAll" to true

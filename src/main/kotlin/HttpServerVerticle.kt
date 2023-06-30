@@ -19,7 +19,8 @@ class HttpServerVerticle : AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(HttpServerVerticle::class.java)
 
   override fun start(startFuture: Promise<Void>) {
-    val port = config().getString("http-port", "8080").toInt()
+    val host = config().getString("http-host")
+    val port = config().getString("http-port").toInt()
     logger.info("Trying to start a HTTP server on port $port")
 
     val router = Router.router(vertx)
@@ -36,7 +37,7 @@ class HttpServerVerticle : AbstractVerticle() {
 
     router.route().handler(StaticHandler.create().setCachingEnabled(false))
 
-    vertx.createHttpServer().requestHandler(router).rxListen(port, "127.0.0.1").subscribeBy(onSuccess = {
+    vertx.createHttpServer().requestHandler(router).rxListen(port, host).subscribeBy(onSuccess = {
       logger.info("HTTP server running on port $port")
       startFuture.complete()
     }, onError = {
