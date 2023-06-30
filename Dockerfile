@@ -1,9 +1,9 @@
 FROM openjdk:8-jdk-alpine
 
-ENV JAR=zlack-0.0.1-SNAPSHOT-fat.jar
+ENV JAR=rxjava-vertx-kotlin-seed.jar
 
 COPY kube-application.conf /opt/app/
-COPY backend/build/libs/$JAR /opt/app/app.jar
+COPY build/libs/$JAR /opt/app/app.jar
 
 EXPOSE 8080
 

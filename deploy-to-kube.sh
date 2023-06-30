@@ -2,15 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# shellcheck disable=SC2046
 eval $(minikube docker-env)
 
-Services=('zlack')
-
-for service in "${Services[@]}"; do
-  cd $service
-  docker build -t $service:latest .
-  cd ..
-done
+docker build -t zlack:latest .
 
 K8sResources=('mongo' 'zlack')
 

@@ -28,15 +28,6 @@ Building all Docker images and creating Kubernetes resources can then be done us
 
     ./gradlew deployToKube
 
-_If you are not deploying to `minikube`:_
-
-1. all sub-projects have corresponding `Dockerfile` files, and
-2. all Kubernetes resource files are in [kubernetes/](kubernetes).
-
-## Contributing
-
-Contributions are welcome, please use GitHub pull requests!
-
 Mongo:
 
     docker-compose -f docker-compose-for-testing.yml up
@@ -49,3 +40,7 @@ Backend API:
 Docker:
 
     docker build -t zlack:latest .
+
+## Contributing
+
+Contributions are welcome, please use GitHub pull requests!
