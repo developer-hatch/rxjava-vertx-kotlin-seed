@@ -2,17 +2,13 @@
 
 This is a chat application, exposing an API and a reactive VueJS interface.
    It provides real-time message deliveries and shows how the Vert.x event bus can be extended to client-side applications and offer a unified message-passing programming model.
-   _(Vert.x web / web client / SockJS event bus bridge / RxJava 3 / MongoDB / VueJS)_
+   _(Vert.x / RxJava 3 / Kotlin / MongoDB)_
 
 ## Building
 
 Building all services should be as simple as:
 
-    ./gradlew assemble
-
-While developing a Vert.x service you can have live-reload, as in:
-
-    ./gradlew :zlack:vertxRun
+    ./gradlew clean build
 
 # Deploying
 

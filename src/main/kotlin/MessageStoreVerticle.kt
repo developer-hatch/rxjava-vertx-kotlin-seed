@@ -32,8 +32,8 @@ class MessageStoreVerticle : AbstractVerticle() {
       )
     })
 
-    vertx.eventBus().consumer<JsonObject>("messages.store", this::store)
-    vertx.eventBus().consumer<JsonObject>("messages.get-all", this::all)
+    vertx.eventBus().consumer("messages.store", this::store)
+    vertx.eventBus().consumer("messages.get-all", this::all)
 
     logger.info("Connected to MongoDB")
   }
