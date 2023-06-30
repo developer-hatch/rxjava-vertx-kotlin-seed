@@ -7,16 +7,14 @@ services:
     container_name: zlack-app
     depends_on:
       - mongodb
-    ports:
-      - "8080:8080"
+    network_mode: host
 
   mongodb:
     image: mongo
     container_name: my_mongodb
-    ports:
-      - '27017:27017'
     volumes:
       - zlackdb:/data/db
+    network_mode: host
 
 volumes:
   zlackdb:
