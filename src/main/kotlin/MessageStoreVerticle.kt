@@ -8,13 +8,13 @@ import io.vertx.rxjava3.ext.mongo.MongoClient
 import org.slf4j.LoggerFactory
 import java.time.Instant
 
+private const val MONGO_COLLECTION = "messages"
+
 class MessageStoreVerticle : AbstractVerticle() {
 
   private val logger = LoggerFactory.getLogger(MessageStoreVerticle::class.java)
 
   private lateinit var client: MongoClient
-
-  private val MONGO_COLLECTION = "messages"
 
   override fun start() {
     val host = config().getString("mongo-host", "localhost")

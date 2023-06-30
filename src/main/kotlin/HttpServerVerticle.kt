@@ -54,7 +54,7 @@ class HttpServerVerticle : AbstractVerticle() {
   }
 
   private fun postNewMessage(context: RoutingContext) {
-    val payload = context.bodyAsJson
+    val payload = context.body().asJsonObject()
 
     if (!payload.containsKey("author") || !payload.containsKey("content")) {
       context.fail(400)
