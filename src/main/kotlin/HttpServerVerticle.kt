@@ -1,4 +1,5 @@
 import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.vertx.core.DeploymentOptions
 import io.vertx.core.Promise
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.bridge.PermittedOptions
@@ -37,20 +38,23 @@ class HttpServerVerticle : AbstractVerticle() {
     router.route().handler(StaticHandler.create().setCachingEnabled(false))
 
     vertx.createHttpServer().requestHandler { router.get() }.rxListen(port).subscribeBy(onSuccess = {
-        logger.info("HTTP server running on port $port")
-        startFuture.complete()
-      }, onError = {
-        logger.error("HTTP server could not be started on port $port", it)
-        startFuture.fail(it)
-      })
+      logger.info("HTTP server running on port $port")
+      startFuture.complete()
+    }, onError = {
+      logger.error("HTTP server could not be started on port $port", it)
+      startFuture.fail(it)
+    })
+
+    val optionsV = DeploymentOptions().setWorker(true)
+    vertx.deployVerticle("MessageStoreVerticle", optionsV).subscribe()
   }
 
   private val emptyJson = json { obj() }
 
   private fun getAllMessages(context: RoutingContext) {
     vertx.eventBus().rxRequest<JsonObject>("messages.get-all", emptyJson).subscribeBy(onSuccess = { reply ->
-        context.response().setStatusCode(200).putHeader("Content-Type", "application/json").end(reply.body().encode())
-      }, onError = { context.fail(500) })
+      context.response().setStatusCode(200).putHeader("Content-Type", "application/json").end(reply.body().encode())
+    }, onError = { context.fail(500) })
   }
 
   private fun postNewMessage(context: RoutingContext) {
@@ -62,7 +66,7 @@ class HttpServerVerticle : AbstractVerticle() {
     }
 
     vertx.eventBus().rxRequest<JsonObject>("messages.store", payload).subscribeBy(onSuccess = { reply ->
-        context.response().setStatusCode(201).putHeader("Content-Type", "application/json").end(reply.body().encode())
-      }, onError = { context.fail(500) })
+      context.response().setStatusCode(201).putHeader("Content-Type", "application/json").end(reply.body().encode())
+    }, onError = { context.fail(500) })
   }
 }

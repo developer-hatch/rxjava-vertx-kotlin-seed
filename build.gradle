@@ -39,13 +39,7 @@ repositories {
 
 vertx {
   vertxVersion = "4.1.0"
-  mainVerticle = "HttpServerVerticle"
-}
-
-jar {
-  manifest {
-    attributes("Main-Class": "HttpServerVerticle")
-  }
+  mainVerticle = "MainVerticle"
 }
 
 tasks.named('wrapper') {
