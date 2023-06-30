@@ -36,9 +36,8 @@ class HttpServerVerticle : AbstractVerticle() {
 
     router.route().handler(StaticHandler.create().setCachingEnabled(false))
 
-    vertx.createHttpServer().requestHandler { router.get() }.rxListen(port).subscribeBy(onSuccess = {
+    vertx.createHttpServer().requestHandler { router.get() }.rxListen(port, "localhost").subscribeBy(onSuccess = {
       logger.info("HTTP server running on port $port")
-      logger.info("HTTP path prefix ${router.route().path}")
       startFuture.complete()
     }, onError = {
       logger.error("HTTP server could not be started on port $port", it)
