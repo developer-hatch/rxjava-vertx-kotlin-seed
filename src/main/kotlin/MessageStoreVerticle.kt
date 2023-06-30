@@ -17,7 +17,7 @@ class MessageStoreVerticle : AbstractVerticle() {
   private lateinit var client: MongoClient
 
   override fun start() {
-    logger.info("Starting the message store with MongoDB host=, port=")
+    logger.info("Starting the message store with MongoDB host=mongodb, port=27017")
 
     client = MongoClient.createShared(vertx, json {
       obj(
@@ -31,6 +31,8 @@ class MessageStoreVerticle : AbstractVerticle() {
 
     vertx.eventBus().consumer<JsonObject>("messages.store", this::store)
     vertx.eventBus().consumer<JsonObject>("messages.get-all", this::all)
+
+    logger.info("Connected to MongoDB")
   }
 
   private fun store(cmd: Message<JsonObject>) {

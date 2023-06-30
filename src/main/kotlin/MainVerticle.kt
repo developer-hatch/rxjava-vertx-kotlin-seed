@@ -8,8 +8,10 @@ class MainVerticle : AbstractVerticle() {
   private val logger = LoggerFactory.getLogger(MainVerticle::class.java)
 
   override fun start(startFuture: Promise<Void>) {
-    val optionsV = DeploymentOptions().setWorker(true)
-    vertx.deployVerticle("HttpServerVerticle", optionsV).subscribe()
-    vertx.deployVerticle("MessageStoreVerticle", optionsV).subscribe()
+    val options = DeploymentOptions().setWorker(true)
+    logger.info("Deploying verticles!!!")
+    vertx.deployVerticle("HttpServerVerticle", options).subscribe()
+    vertx.deployVerticle("MessageStoreVerticle", options).subscribe()
+    logger.info("Verticles deployed!!!")
   }
 }

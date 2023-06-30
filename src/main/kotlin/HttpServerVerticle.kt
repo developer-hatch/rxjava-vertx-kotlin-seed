@@ -21,7 +21,7 @@ class HttpServerVerticle : AbstractVerticle() {
 
   override fun start(startFuture: Promise<Void>) {
     val port = config().getString("http-port", "8080").toInt()
-    logger.info("Trying to start a HTTP server on port ${port}")
+    logger.info("Trying to start a HTTP server on port $port")
 
     val router = Router.router(vertx)
     router.route().handler(BodyHandler.create())
@@ -44,9 +44,6 @@ class HttpServerVerticle : AbstractVerticle() {
       logger.error("HTTP server could not be started on port $port", it)
       startFuture.fail(it)
     })
-
-    val optionsV = DeploymentOptions().setWorker(true)
-    vertx.deployVerticle("MessageStoreVerticle", optionsV).subscribe()
   }
 
   private val emptyJson = json { obj() }
