@@ -14,11 +14,12 @@ RUN gradle clean build --stacktrace
 
 FROM azul/zulu-openjdk-alpine:17-latest
 
-ENV ARTIFACT_NAME=zlack-all.jar
+ARG ARTIFACT_NAME=zlack-all.jar
+ARG VERTX_CONF=vertx-application.conf
 
 ARG APP_HOME=/usr/app/
 WORKDIR $APP_HOME
-COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
+COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME $APP_HOME/$VERTX_CONF ./
 
 EXPOSE 8080
-ENTRYPOINT exec java -jar ${ARTIFACT_NAME}
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Dvertx.cacheDirBase=/tmp", "-jar", "zlack-all.jar", "-Dconfig.file=vertx-application.conf"]

@@ -1,5 +1,4 @@
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import io.vertx.core.DeploymentOptions
 import io.vertx.core.Promise
 import io.vertx.core.json.JsonObject
 import io.vertx.ext.bridge.PermittedOptions
@@ -39,6 +38,7 @@ class HttpServerVerticle : AbstractVerticle() {
 
     vertx.createHttpServer().requestHandler { router.get() }.rxListen(port).subscribeBy(onSuccess = {
       logger.info("HTTP server running on port $port")
+      logger.info("HTTP path prefix ${router.route().path}")
       startFuture.complete()
     }, onError = {
       logger.error("HTTP server could not be started on port $port", it)
