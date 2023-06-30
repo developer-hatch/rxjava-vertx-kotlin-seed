@@ -1,6 +1,26 @@
-version: "2"
+version: "3"
 services:
-  mongo:
+  zlack:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+    networks:
+      - zlack-network
+
+  mongodb:
     image: mongo
     ports:
-      - "27017:27017"
+      - '27017:27017'
+    volumes:
+      - zlackdb:/data/db
+    networks:
+      - zlack-network
+
+volumes:
+  zlackdb:
+
+networks:
+  zlack-network:
+    driver: bridge

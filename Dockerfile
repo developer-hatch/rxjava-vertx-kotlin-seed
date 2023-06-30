@@ -1,11 +1,5 @@
-FROM openjdk:8-jdk-alpine
-
-ENV JAR=rxjava-vertx-kotlin-seed.jar
-
-COPY kube-application.conf /opt/app/
-COPY build/libs/$JAR /opt/app/app.jar
+FROM azul/zulu-openjdk-alpine:11
 
 EXPOSE 8080
-
-WORKDIR /opt/app
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Dvertx.cacheDirBase=/tmp", "-jar", "app.jar", "-Dconfig.file=kube-application.conf"]
+ADD /build/libs/rxjava-vertx-kotlin-seed-all.jar app.jar
+ENTRYPOINT ["java", "-jar", "app.jar"]
