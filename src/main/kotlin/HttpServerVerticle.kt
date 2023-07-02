@@ -49,7 +49,6 @@ class HttpServerVerticle : AbstractVerticle() {
   private val emptyJson = json { obj() }
 
   private fun getAllMessages(context: RoutingContext) {
-    logger.info("HERE!!!")
     vertx.eventBus().rxRequest<JsonObject>("messages.get-all", emptyJson).subscribeBy(onSuccess = { reply ->
       context.response().setStatusCode(200).putHeader("Content-Type", "application/json").end(reply.body().encode())
     }, onError = { context.fail(500) })

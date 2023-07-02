@@ -1,25 +1,16 @@
-FROM gradle:8.1.1-alpine AS TEMP_BUILD_IMAGE
+FROM gradle:8.1.1-alpine
 
-ARG APP_HOME=/usr/app
-WORKDIR $APP_HOME/
-COPY build.gradle settings.gradle $APP_HOME/
+RUN gradle --version && java -version
 
-COPY gradle $APP_HOME/gradle
-COPY --chown=gradle:gradle . /home/gradle/src
-USER root
-RUN chown -R gradle /home/gradle/src
+WORKDIR .
+COPY build.gradle settings.gradle ./
+
+RUN gradle clean build --stacktrace > /dev/null 2>&1 || true
 
 COPY . .
+
 RUN gradle clean build --stacktrace
 
-FROM azul/zulu-openjdk-alpine:17-latest
-
-ARG ARTIFACT_NAME=zlack-all.jar
-ARG VERTX_CONF=vertx-application-local.conf
-
-ARG APP_HOME=/usr/app
-WORKDIR $APP_HOME/
-COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME $APP_HOME/$VERTX_CONF ./
-
 EXPOSE 8080
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Dvertx.cacheDirBase=/tmp", "-jar", "zlack-all.jar", "-Dconfig.file=vertx-application-local.conf"]
+
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Dvertx.cacheDirBase=/tmp", "-jar", "build/libs/zlack-all.jar", "-Dconfig.file=vertx-application-local.conf"]
