@@ -14,7 +14,7 @@ Building all services should be as simple as:
 
 Docker:
 
-    docker-compose -f docker-compose-for-testing.yml up --build && docker-compose -f docker-compose-for-testing.yml down --remove-orphans
+    docker-compose -f docker-compose-for-testing.yml up --build && docker-compose -f docker-compose-for-testing.yml down --remove-orphans && docker volume rm $(docker volume ls -q)
 
 Backend API:
 

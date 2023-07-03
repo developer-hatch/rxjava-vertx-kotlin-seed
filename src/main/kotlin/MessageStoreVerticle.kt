@@ -19,6 +19,7 @@ class MessageStoreVerticle : AbstractVerticle() {
   override fun start() {
     val host = config().getString("mongo-host")
     val port = config().getString("mongo-port").toInt()
+    val dbname = config().getString("mongo-db-name")
 
     logger.info("Starting the message store with MongoDB host=$host, port=$port")
 
@@ -26,9 +27,8 @@ class MessageStoreVerticle : AbstractVerticle() {
       obj(
         "host" to host,
         "port" to port,
-        "db_name" to "zlack",
-        "useObjectId" to true,
-        "trustAll" to true
+        "db_name" to dbname,
+        "useObjectId" to true
       )
     })
 
