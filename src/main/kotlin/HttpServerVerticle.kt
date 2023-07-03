@@ -1,3 +1,4 @@
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.vertx.core.Promise
 import io.vertx.core.json.JsonObject
@@ -49,9 +50,13 @@ class HttpServerVerticle : AbstractVerticle() {
   private val emptyJson = json { obj() }
 
   private fun getAllMessages(context: RoutingContext) {
-    vertx.eventBus().rxRequest<JsonObject>("messages.get-all", emptyJson).subscribeBy(onSuccess = { reply ->
-      context.response().setStatusCode(200).putHeader("Content-Type", "application/json").end(reply.body().encode())
-    }, onError = { context.fail(500) })
+    vertx.eventBus().rxRequest<JsonObject>("messages.get-all", emptyJson)
+      .map { reply ->
+        context.response().setStatusCode(200).putHeader("Content-Type", "application/json").end(reply.body().encode())
+      }
+      .onErrorReturn { err ->
+        Completable.create { context.fail(500, err) }
+      }.subscribe()
   }
 
   private fun postNewMessage(context: RoutingContext) {
@@ -62,8 +67,12 @@ class HttpServerVerticle : AbstractVerticle() {
       return
     }
 
-    vertx.eventBus().rxRequest<JsonObject>("messages.store", payload).subscribeBy(onSuccess = { reply ->
-      context.response().setStatusCode(201).putHeader("Content-Type", "application/json").end(reply.body().encode())
-    }, onError = { context.fail(500) })
+    vertx.eventBus().rxRequest<JsonObject>("messages.store", payload)
+      .map { reply ->
+        context.response().setStatusCode(201).putHeader("Content-Type", "application/json").end(reply.body().encode())
+      }
+      .onErrorReturn { err ->
+        Completable.create { context.fail(500, err) }
+      }.subscribe()
   }
 }
