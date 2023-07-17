@@ -13,4 +13,4 @@ RUN gradle clean build --stacktrace
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Dvertx.cacheDirBase=/tmp", "-jar", "build/libs/zlack-all.jar", "-Dconfig.file=vertx-application-local.conf"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-Dvertx.cacheDirBase=/tmp", "-jar", "build/libs/rxjava-vertx-kotlin-seed-all.jar", "-Dconfig.file=vertx-application-local.conf"]

@@ -1,28 +1,28 @@
 version: "3.8"
 services:
-  zlack:
+  rxjava-vertx-kotlin-seed:
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - mongodb
     networks:
-      - zlack-network
+      - rxjava-vertx-kotlin-seed-network
     ports:
       - '8080:8080'
 
   mongodb:
     image: mongo
     volumes:
-      - zlackdb:/data/db
+      - rxjava-vertx-kotlin-seeddb:/data/db
     networks:
-      - zlack-network
+      - rxjava-vertx-kotlin-seed-network
     ports:
       - '27017:27017'
 
 volumes:
-  zlackdb:
+  rxjava-vertx-kotlin-seeddb:
 
 networks:
-  zlack-network:
+  rxjava-vertx-kotlin-seed-network:
     driver: bridge

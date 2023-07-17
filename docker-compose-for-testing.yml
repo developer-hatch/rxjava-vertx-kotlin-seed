@@ -1,10 +1,10 @@
 version: "3.8"
 services:
-  zlack:
+  rxjava-vertx-kotlin-seed:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: zlack-app
+    container_name: rxjava-vertx-kotlin-seed-app
     depends_on:
       - mongodb
     network_mode: host
@@ -13,8 +13,8 @@ services:
     image: mongo
     container_name: my_mongodb
     volumes:
-      - zlackdb:/data/db
+      - rxjava-vertx-kotlin-seeddb:/data/db
     network_mode: host
 
 volumes:
-  zlackdb:
+  rxjava-vertx-kotlin-seeddb:
